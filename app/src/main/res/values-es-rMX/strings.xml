@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crea tu CURP</string>
+    <string name="form_name">Nombre</string>
+    <string name="form_father_last_name">Apellido Paterno</string>
+    <string name="form_mother_last_name">Apellido Materno</string>
+    <string name="form_gender">Género</string>
+    <string name="form_radio_man">Hombre</string>
+    <string name="form_radio_woman">Mujer</string>
+    <string name="form_label_birthday">Cumpleaños</string>
+
+    <string-array name="States">
+        <item>Aguascalientes</item>
+        <item>Baja California</item>
+        <item>Baja California Sur</item>
+        <item>Campeche</item>
+        <item>Chiapas</item>
+        <item>Chihuahua</item>
+        <item>Ciudad de México</item>
+        <item>Coahuila</item>
+        <item>Colima</item>
+        <item>Durango</item>
+        <item>Estado de México</item>
+        <item>Guanajuato</item>
+        <item>Guerrero</item>
+        <item>Hidalgo</item>
+        <item>Jalisco</item>
+        <item>Michoacán</item>
+        <item>Morelos</item>
+        <item>Nayarit</item>
+        <item>Nuevo León</item>
+        <item>Oaxaca</item>
+        <item>Puebla</item>
+        <item>Querétaro</item>
+        <item>Quintana Roo</item>
+        <item>San Luis Potosí</item>
+        <item>Sinaloa</item>
+        <item>Sonora</item>
+        <item>Tabasco</item>
+        <item>Tamaulipas</item>
+        <item>Tlaxcala</item>
+        <item>Veracruz</item>
+        <item>Yucatán</item>
+        <item>Zacatecas</item>
+    </string-array>
+    <string name="form_label_states">Estados</string>
+    <string name="form_button_generate_curp">Crear CURP</string>
+    <string name="form_label_day">Día</string>
+    <string name="form_label_month">Mes</string>
+    <string name="form_label_year">Año</string>
+    <string name="alert_title_data_error">Información Incorrecta</string>
+    <string name="alert_body_data_error">Porfavor, verifique que llenó todos los campos de forma correcta</string>
+    <string name="alert_button_data_error">Entendido</string>
+    <string name="menu_back_title">Regresar</string>
+</resources>

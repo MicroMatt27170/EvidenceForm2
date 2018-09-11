@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Create your CURP</string>
+    <string name="form_name">Name</string>
+    <string name="form_father_last_name">Father\'s Last Name</string>
+    <string name="form_mother_last_name">Mother\'s Last Name</string>
+    <string name="form_gender">Gender</string>
+    <string name="form_radio_man">Man</string>
+    <string name="form_radio_woman">Woman</string>
+    <string name="form_label_birthday">Birthday</string>
+    <string name="form_input_birthday" translatable="false">31/12/1999</string>
+
+    <string-array name="States">
+        <item>Aguascalientes</item>
+        <item>Baja California</item>
+        <item>Baja California Sur</item>
+        <item>Campeche</item>
+        <item>Chiapas</item>
+        <item>Chihuahua</item>
+        <item>Mexico City</item>
+        <item>Coahuila</item>
+        <item>Colima</item>
+        <item>Durango</item>
+        <item>Mexico State</item>
+        <item>Guanajuato</item>
+        <item>Guerrero</item>
+        <item>Hidalgo</item>
+        <item>Jalisco</item>
+        <item>Michoacán</item>
+        <item>Morelos</item>
+        <item>Nayarit</item>
+        <item>Nuevo León</item>
+        <item>Oaxaca</item>
+        <item>Puebla</item>
+        <item>Querétaro</item>
+        <item>Quintana Roo</item>
+        <item>San Luis Potosí</item>
+        <item>Sinaloa</item>
+        <item>Sonora</item>
+        <item>Tabasco</item>
+        <item>Tamaulipas</item>
+        <item>Tlaxcala</item>
+        <item>Veracruz</item>
+        <item>Yucatán</item>
+        <item>Zacatecas</item>
+    </string-array>
+    <string name="form_label_states">States</string>
+    <string name="form_button_generate_curp">Create CURP</string>
+    <string name="form_label_day">Day</string>
+    <string name="form_label_month">Month</string>
+    <string name="form_label_year">Year</string>
+    <string name="alert_title_data_error">Incorrect Input</string>
+    <string name="alert_body_data_error">Please, check that you enter all the inputs with correct data</string>
+    <string name="alert_button_data_error">Ok</string>
+    <string name="display_curp" translatable="false">CURP</string>
+    <string name="menu_back_title">Back</string>
+</resources>
