@@ -53,4 +53,5 @@
     <string name="alert_button_data_error">Ok</string>
     <string name="display_curp" translatable="false">CURP</string>
     <string name="menu_back_title">Back</string>
+    <string name="menu_list_view_title">CURP List</string>
 </resources>

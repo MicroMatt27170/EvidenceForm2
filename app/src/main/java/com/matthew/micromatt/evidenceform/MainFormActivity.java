@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.matthew.micromatt.evidenceform.DatabaseHandler.CurpDbHelper;
 import com.matthew.micromatt.evidenceform.Models.Curp;
 
 public class MainFormActivity extends AppCompatActivity {

@@ -52,4 +52,5 @@
     <string name="alert_body_data_error">Porfavor, verifique que llenó todos los campos de forma correcta</string>
     <string name="alert_button_data_error">Entendido</string>
     <string name="menu_back_title">Regresar</string>
+    <string name="menu_list_view_title">Lista de CURP</string>
 </resources>

@@ -17,6 +17,7 @@ public class ViewCurpDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_curp_data);
 
         Curp curp = getIntent().getParcelableExtra("curp");
+        
 
         ((TextView)findViewById(R.id.DisplayName)).setText(curp.getName());
         ((TextView)findViewById(R.id.DisplayFatherLastName)).setText(curp.getFatherLastName());

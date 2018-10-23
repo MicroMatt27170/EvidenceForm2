@@ -4,4 +4,7 @@
 
     <item android:title="@string/menu_back_title"
         android:id="@+id/menuBack"/>
+
+    <item android:title="@string/menu_list_view_title"
+        android:id="@+id/menuListView"/>
 </menu>
