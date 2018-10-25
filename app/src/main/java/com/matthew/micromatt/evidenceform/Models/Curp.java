@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -72,6 +73,10 @@ public class Curp  implements Parcelable{
         this.birthdayMonth = month;
         this.birthdayDay = day;
         this.state = state;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getName() {
@@ -182,84 +187,170 @@ public class Curp  implements Parcelable{
     }
 
     public void save(Context context){
-        CurpDbHelper curpDbHelper = new CurpDbHelper(context);
-        SQLiteDatabase db = curpDbHelper.getWritableDatabase();
-
-        //Create new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(CurpEntry.COLUMN_NAME_NAME, name);
-        values.put(CurpEntry.COLUMN_NAME_FATHER_LAST_NAME, fatherLastName);
-        values.put(CurpEntry.COLUMN_NAME_MOTHER_LAST_NAME, motherLastName);
-        values.put(CurpEntry.COLUMN_NAME_GENDER, gender);
-        values.put(CurpEntry.COLUMN_NAME_STATE, state);
-        values.put(CurpEntry.COLUMN_NAME_BIRTHDAY_YEAR, birthdayYear);
-        values.put(CurpEntry.COLUMN_NAME_BIRTHDAY_MONTH, birthdayMonth);
-        values.put(CurpEntry.COLUMN_NAME_BIRTHDAY_DAY, birthdayDay);
-
-        if (this.id == 0){
-            Long id = db.insert(CurpEntry.TABLE_NAME, CurpEntry._ID, values);
-            this.id = id;
-        } else {
-            String[] selectionArgs = { String.valueOf(this.id) };
-            db.update(CurpEntry.TABLE_NAME, values, CurpEntry._ID + " = ?", selectionArgs);
-        }
+        SaveInDatabaseArgs saveInDatabaseArgs = new SaveInDatabaseArgs(context);
+        new SaveInDatabase().execute(saveInDatabaseArgs);
     }
 
     public static ArrayList<Curp> getCurps(Context context){
-        String[] args = {};
-        return getCurps(context, "", args, CurpEntry._ID + " ASC");
+        DatabaseSelectArgs dsa = new DatabaseSelectArgs(context);
+        ArrayList<Curp> curps = new getCurpsInDatabase().doInBackground(dsa);
+        return curps;
     }
 
     public static ArrayList<Curp> getCurps(Context context, String selection, String[] selectionArgs){
-        return getCurps(context, selection, selectionArgs, CurpEntry._ID + " ASC");
+        DatabaseSelectArgs dsa = new DatabaseSelectArgs(context, selection, selectionArgs);
+        ArrayList<Curp> curps = new getCurpsInDatabase().doInBackground(dsa);
+        return curps;
     }
 
     public static ArrayList<Curp> getCurps(Context context, String selection, String[] selectionArgs, String sortOrder){
-        CurpDbHelper curpDbHelper = new CurpDbHelper(context);
-        SQLiteDatabase db = curpDbHelper.getWritableDatabase();
+        DatabaseSelectArgs dsa = new DatabaseSelectArgs(context, selection, selectionArgs, sortOrder);
+        ArrayList<Curp> curps = new getCurpsInDatabase().doInBackground(dsa);
+        return curps;
+    }
 
-        String[] projection = {
-                CurpEntry._ID,
-                CurpEntry.COLUMN_NAME_NAME,
-                CurpEntry.COLUMN_NAME_FATHER_LAST_NAME,
-                CurpEntry.COLUMN_NAME_MOTHER_LAST_NAME,
-                CurpEntry.COLUMN_NAME_GENDER,
-                CurpEntry.COLUMN_NAME_STATE,
-                CurpEntry.COLUMN_NAME_BIRTHDAY_YEAR,
-                CurpEntry.COLUMN_NAME_BIRTHDAY_MONTH,
-                CurpEntry.COLUMN_NAME_BIRTHDAY_DAY
-        };
+    //ASYNC TASK CLASSES
 
-        Cursor cursor = db.query(
-                CurpEntry.TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        );
+    private class SaveInDatabaseArgs {
+        private Context context;
 
-        ArrayList<Curp> items = new ArrayList<Curp>();
-        while (cursor.moveToNext()) {
-            long c_Id = cursor.getLong(cursor.getColumnIndexOrThrow(CurpEntry._ID));
-            String c_Name = cursor.getString(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_NAME));
-            String c_FatherLastName = cursor.getString(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_FATHER_LAST_NAME));
-            String c_MotherLastName = cursor.getString(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_MOTHER_LAST_NAME));
-            String c_Gender = cursor.getString(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_GENDER));
-            String c_State = cursor.getString(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_STATE));
-            int c_year = cursor.getInt(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_BIRTHDAY_YEAR));
-            int c_month = cursor.getInt(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_BIRTHDAY_MONTH));
-            int c_day = cursor.getInt(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_BIRTHDAY_DAY));
-
-            Curp c = new Curp(c_Name, c_FatherLastName, c_MotherLastName, c_Gender, c_year, c_month, c_day, c_State, c_Id);
-
-            items.add(c);
+        public SaveInDatabaseArgs(Context c){
+            this.context = c;
         }
 
-        cursor.close();
+        public Context getContext() {
+            return context;
+        }
+    }
 
-        return items;
+    private static class DatabaseSelectArgs {
+        private Context context;
+        private String selection;
+        private String[] selectionArgs;
+        private String sortOrder;
+
+        public final String ASC = CurpEntry.COLUMN_NAME_NAME +  " ASC";
+        public final String DESC = CurpEntry.COLUMN_NAME_NAME + " DESC";
+
+        public DatabaseSelectArgs(Context context){
+            this.context = context;
+            this.selection = "";
+            String[] a = {};
+            this.selectionArgs = a;
+            this.sortOrder = this.ASC;
+        }
+
+        public DatabaseSelectArgs(Context context, String selection, String[] selectionArgs){
+            this.context = context;
+            this.selection = selection;
+            this.selectionArgs = selectionArgs;
+            this.sortOrder = this.ASC;
+        }
+
+        public DatabaseSelectArgs(Context context, String selection, String[] selectionArgs, String sortOrder) {
+            this.context = context;
+            this.selection = selection;
+            this.selectionArgs = selectionArgs;
+            this.sortOrder = sortOrder;
+        }
+
+        public Context getContext() {
+            return context;
+        }
+
+        public String getSelection() {
+            return selection;
+        }
+
+        public String[] getSelectionArgs() {
+            return selectionArgs;
+        }
+
+        public String getSortOrder() {
+            return sortOrder;
+        }
+    }
+
+    private class SaveInDatabase extends AsyncTask<SaveInDatabaseArgs, Void, Void> {
+
+        @Override
+        protected Void doInBackground(SaveInDatabaseArgs... saveInDatabaseArgs) {
+            Context context = saveInDatabaseArgs[0].getContext();
+            CurpDbHelper curpDbHelper = new CurpDbHelper(context);
+            SQLiteDatabase db = curpDbHelper.getWritableDatabase();
+            //Create new map of values, where column names are the keys
+            ContentValues values = new ContentValues();
+            values.put(CurpEntry.COLUMN_NAME_NAME, name);
+            values.put(CurpEntry.COLUMN_NAME_FATHER_LAST_NAME, fatherLastName);
+            values.put(CurpEntry.COLUMN_NAME_MOTHER_LAST_NAME, motherLastName);
+            values.put(CurpEntry.COLUMN_NAME_GENDER, gender);
+            values.put(CurpEntry.COLUMN_NAME_STATE, state);
+            values.put(CurpEntry.COLUMN_NAME_BIRTHDAY_YEAR, birthdayYear);
+            values.put(CurpEntry.COLUMN_NAME_BIRTHDAY_MONTH, birthdayMonth);
+            values.put(CurpEntry.COLUMN_NAME_BIRTHDAY_DAY, birthdayDay);
+
+            if (id == 0){
+                Long ids = db.insert(CurpEntry.TABLE_NAME, CurpEntry._ID, values);
+                id = ids;
+            } else {
+                String[] selectionArgs = { String.valueOf(id) };
+                db.update(CurpEntry.TABLE_NAME, values, CurpEntry._ID + " = ?", selectionArgs);
+            }
+            return null;
+        }
+    }
+
+    private static class getCurpsInDatabase extends AsyncTask<DatabaseSelectArgs, Void, ArrayList<Curp>> {
+
+        @Override
+        protected ArrayList<Curp> doInBackground(DatabaseSelectArgs... databaseSelectArgsArray) {
+            DatabaseSelectArgs dsa = databaseSelectArgsArray[0];
+            CurpDbHelper curpDbHelper = new CurpDbHelper(dsa.getContext());
+            SQLiteDatabase db = curpDbHelper.getWritableDatabase();
+
+            String[] projection = {
+                    CurpEntry._ID,
+                    CurpEntry.COLUMN_NAME_NAME,
+                    CurpEntry.COLUMN_NAME_FATHER_LAST_NAME,
+                    CurpEntry.COLUMN_NAME_MOTHER_LAST_NAME,
+                    CurpEntry.COLUMN_NAME_GENDER,
+                    CurpEntry.COLUMN_NAME_STATE,
+                    CurpEntry.COLUMN_NAME_BIRTHDAY_YEAR,
+                    CurpEntry.COLUMN_NAME_BIRTHDAY_MONTH,
+                    CurpEntry.COLUMN_NAME_BIRTHDAY_DAY
+            };
+
+            Cursor cursor = db.query(
+                    CurpEntry.TABLE_NAME,
+                    projection,
+                    dsa.getSelection(),
+                    dsa.getSelectionArgs(),
+                    null,
+                    null,
+                    dsa.getSortOrder()
+            );
+
+            ArrayList<Curp> items = new ArrayList<Curp>();
+            while (cursor.moveToNext()) {
+                long c_Id = cursor.getLong(cursor.getColumnIndexOrThrow(CurpEntry._ID));
+                String c_Name = cursor.getString(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_NAME));
+                String c_FatherLastName = cursor.getString(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_FATHER_LAST_NAME));
+                String c_MotherLastName = cursor.getString(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_MOTHER_LAST_NAME));
+                String c_Gender = cursor.getString(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_GENDER));
+                String c_State = cursor.getString(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_STATE));
+                int c_year = cursor.getInt(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_BIRTHDAY_YEAR));
+                int c_month = cursor.getInt(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_BIRTHDAY_MONTH));
+                int c_day = cursor.getInt(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_BIRTHDAY_DAY));
+
+                Curp c = new Curp(c_Name, c_FatherLastName, c_MotherLastName, c_Gender, c_year, c_month, c_day, c_State, c_Id);
+
+                items.add(c);
+            }
+
+            cursor.close();
+
+            return items;
+        }
     }
 }
 

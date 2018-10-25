@@ -122,7 +122,7 @@
             android:text="@string/form_button_generate_curp"
             android:background="@drawable/button_selector"
             android:textColor="@color/colorWhite"
-            android:onClick="FormButtonClicked"/>
+            android:onClick="SaveCurpButton"/>
 
 
     </LinearLayout>

@@ -54,4 +54,7 @@
     <string name="display_curp" translatable="false">CURP</string>
     <string name="menu_back_title">Back</string>
     <string name="menu_list_view_title">CURP List</string>
+    <string name="title_activity_recycler_view">Curp List</string>
+    <string name="save_curp_dialog">Curp is Saved</string>
+    <string name="save_curp_dialog_body">The curp is successfully saved in database</string>
 </resources>
