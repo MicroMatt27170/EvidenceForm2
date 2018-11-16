@@ -8,7 +8,7 @@ import static com.matthew.micromatt.evidenceform.DatabaseHandler.CurpContract.*;
 
 public class CurpDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "CurpGenerator.db";
 
     public CurpDbHelper(Context context) {

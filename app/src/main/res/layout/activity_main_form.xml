@@ -117,6 +117,19 @@
             />
 
         <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/getImageBtn"
+            android:onClick="getImageFromGallery"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            style="@style/Margin16"
+            android:background="@color/colorDarkGrey"
+            android:id="@+id/ImageViewForm"/>
+
+        <Button
             style="@style/FormButton"
             android:id="@+id/ButtonGenerateCURP"
             android:text="@string/form_button_generate_curp"

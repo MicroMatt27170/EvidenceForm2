@@ -19,7 +19,8 @@ public final class CurpContract {
             CurpEntry.COLUMN_NAME_STATE + " TEXT, " +
             CurpEntry.COLUMN_NAME_BIRTHDAY_YEAR + " INTEGER, " +
             CurpEntry.COLUMN_NAME_BIRTHDAY_MONTH + " INTEGER, " +
-            CurpEntry.COLUMN_NAME_BIRTHDAY_DAY + " INTEGER) ";
+            CurpEntry.COLUMN_NAME_BIRTHDAY_DAY + " INTEGER, " +
+            CurpEntry.COLUMN_NAME_PATH + " TEXT)";
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + CurpEntry.TABLE_NAME;
@@ -38,5 +39,6 @@ public final class CurpContract {
         public static final String COLUMN_NAME_BIRTHDAY_YEAR = "birthday_year";
         public static final String COLUMN_NAME_BIRTHDAY_MONTH = "birthday_month";
         public static final String COLUMN_NAME_BIRTHDAY_DAY = "birthday_day";
+        public static final String COLUMN_NAME_PATH = "path";
     }
 }

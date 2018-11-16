@@ -1,10 +1,15 @@
 package com.matthew.micromatt.evidenceform;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,6 +21,7 @@ public class AdapterRecyclerViewCurp extends RecyclerView.Adapter<AdapterRecycle
     private ArrayList<Curp> CurpList;
 
     public TextView Name, FatherLastName, MotherLastName, State, Gender, Birthday, Curp;
+    public ImageView Image;
 
     public class ViewHolderData extends RecyclerView.ViewHolder {
 
@@ -28,6 +34,7 @@ public class AdapterRecyclerViewCurp extends RecyclerView.Adapter<AdapterRecycle
             Gender = itemView.findViewById(R.id.rv_gender);
             Birthday = itemView.findViewById(R.id.rv_birthday);
             Curp = itemView.findViewById(R.id.rv_curp_title);
+            Image = itemView.findViewById(R.id.rv_image);
         }
     }
 
@@ -51,6 +58,9 @@ public class AdapterRecyclerViewCurp extends RecyclerView.Adapter<AdapterRecycle
         Gender.setText(c.getGender());
         Birthday.setText(c.getBirthdayString());
         Curp.setText(c.getCurp());
+
+        Uri uri = Uri.parse(c.getPath());
+        Image.setImageURI(uri);
     }
 
     @Override

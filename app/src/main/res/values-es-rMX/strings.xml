@@ -56,4 +56,5 @@
     <string name="title_activity_recycler_view">Lista de Curps</string>
     <string name="save_curp_dialog">Curp guardado</string>
     <string name="save_curp_dialog_body">El curp se guardo satisfactoriamente en la base de datos</string>
+    <string name="getImageBtn">Agregar Imagen</string>
 </resources>

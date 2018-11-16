@@ -5,9 +5,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
 
 import com.matthew.micromatt.evidenceform.DatabaseHandler.CurpContract;
 import com.matthew.micromatt.evidenceform.DatabaseHandler.CurpDbHelper;
@@ -27,6 +30,7 @@ public class Curp  implements Parcelable{
     private int birthdayMonth;
     private int birthdayDay;
     private String state;
+    private String path;
 
     public Curp(){
         this.id = 0;
@@ -38,6 +42,7 @@ public class Curp  implements Parcelable{
         this.birthdayMonth = 1;
         this.birthdayDay = 1;
         this.state = "";
+        this.path = "";
     }
 
     private Curp(Parcel in){
@@ -50,6 +55,7 @@ public class Curp  implements Parcelable{
         this.birthdayMonth = in.readInt();
         this.birthdayDay = in.readInt();
         this.state = in.readString();
+        this.path = in.readString();
     }
 
     public Curp(String name, String fatherLastName, String motherLastName, String gender, int day, int month, int year, String state){
@@ -73,6 +79,31 @@ public class Curp  implements Parcelable{
         this.birthdayMonth = month;
         this.birthdayDay = day;
         this.state = state;
+    }
+
+    public Curp(String name, String fatherLastName, String motherLastName, String gender, int day, int month, int year, String state, String path){
+        this.name = name;
+        this.fatherLastName = fatherLastName;
+        this.motherLastName = motherLastName;
+        this.gender = gender;
+        this.birthdayYear = year;
+        this.birthdayMonth = month;
+        this.birthdayDay = day;
+        this.state = state;
+        this.path = path;
+    }
+
+    public Curp(String name, String fatherLastName, String motherLastName, String gender, int day, int month, int year, String state, String path, long id){
+        this.id = id;
+        this.name = name;
+        this.fatherLastName = fatherLastName;
+        this.motherLastName = motherLastName;
+        this.gender = gender;
+        this.birthdayYear = year;
+        this.birthdayMonth = month;
+        this.birthdayDay = day;
+        this.state = state;
+        this.path = path;
     }
 
     public long getId() {
@@ -101,6 +132,14 @@ public class Curp  implements Parcelable{
 
     public String getState() {
         return state;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public int getBirthdayDay() {
@@ -157,6 +196,7 @@ public class Curp  implements Parcelable{
         parcel.writeInt(birthdayMonth);
         parcel.writeInt(birthdayDay);
         parcel.writeString(state);
+        parcel.writeString(path);
     }
 
     public static final Parcelable.Creator<Curp> CREATOR
@@ -288,6 +328,7 @@ public class Curp  implements Parcelable{
             values.put(CurpEntry.COLUMN_NAME_BIRTHDAY_YEAR, birthdayYear);
             values.put(CurpEntry.COLUMN_NAME_BIRTHDAY_MONTH, birthdayMonth);
             values.put(CurpEntry.COLUMN_NAME_BIRTHDAY_DAY, birthdayDay);
+            values.put(CurpEntry.COLUMN_NAME_PATH, path);
 
             if (id == 0){
                 Long ids = db.insert(CurpEntry.TABLE_NAME, CurpEntry._ID, values);
@@ -317,7 +358,8 @@ public class Curp  implements Parcelable{
                     CurpEntry.COLUMN_NAME_STATE,
                     CurpEntry.COLUMN_NAME_BIRTHDAY_YEAR,
                     CurpEntry.COLUMN_NAME_BIRTHDAY_MONTH,
-                    CurpEntry.COLUMN_NAME_BIRTHDAY_DAY
+                    CurpEntry.COLUMN_NAME_BIRTHDAY_DAY,
+                    CurpEntry.COLUMN_NAME_PATH
             };
 
             Cursor cursor = db.query(
@@ -341,8 +383,9 @@ public class Curp  implements Parcelable{
                 int c_year = cursor.getInt(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_BIRTHDAY_YEAR));
                 int c_month = cursor.getInt(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_BIRTHDAY_MONTH));
                 int c_day = cursor.getInt(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_BIRTHDAY_DAY));
+                String c_path = cursor.getString(cursor.getColumnIndexOrThrow(CurpEntry.COLUMN_NAME_PATH));
 
-                Curp c = new Curp(c_Name, c_FatherLastName, c_MotherLastName, c_Gender, c_year, c_month, c_day, c_State, c_Id);
+                Curp c = new Curp(c_Name, c_FatherLastName, c_MotherLastName, c_Gender, c_year, c_month, c_day, c_State, c_path, c_Id);
 
                 items.add(c);
             }
